@@ -1,0 +1,11 @@
+<div class="translator-box">
+  <h2>English → French Translator</h2>
+  <textarea [(ngModel)]="inputText" placeholder="Type English text..."></textarea>
+  <button (click)="onTranslate()" [disabled]="loading">
+    {{ loading ? 'Translating...' : 'Translate' }}
+  </button>
+  <div class="output" *ngIf="outputText">
+    <strong>Translation:</strong>
+    <p>{{ outputText }}</p>
+  </div>
+</div>
