@@ -1,11 +1,53 @@
-<div class="translator-box">
-  <h2>English → French Translator</h2>
-  <textarea [(ngModel)]="inputText" placeholder="Type English text..."></textarea>
-  <button (click)="onTranslate()" [disabled]="loading">
-    {{ loading ? 'Translating...' : 'Translate' }}
-  </button>
-  <div class="output" *ngIf="outputText">
-    <strong>Translation:</strong>
-    <p>{{ outputText }}</p>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow-lg p-4" style="max-width: 600px; width: 100%;">
+    <div class="card-body">
+      <h2 class="card-title text-center mb-4 text-primary">
+        🌐 Translator
+      </h2>
+
+      <div class="row mb-3">
+        <div class="col">
+          <label class="form-label fw-semibold">From</label>
+          <select class="form-select" [(ngModel)]="sourceLang" (ngModelChange)="updateTargetOptions()">
+            <option *ngFor="let lang of sourceOptions" [value]="lang">
+              {{ languageNames[lang] }}
+            </option>
+          </select>
+        </div>
+        <div class="col">
+          <label class="form-label fw-semibold">To</label>
+          <select class="form-select" [(ngModel)]="targetLang">
+            <option *ngFor="let lang of targetOptions" [value]="lang">
+              {{ languageNames[lang] }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Enter text</label>
+        <textarea
+          class="form-control"
+          rows="4"
+          [(ngModel)]="inputText"
+          placeholder="Type something to translate...">
+        </textarea>
+      </div>
+
+      <div class="d-grid mb-3">
+        <button
+          class="btn btn-primary btn-lg"
+          (click)="onTranslate()"
+          [disabled]="loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+          {{ loading ? 'Translating...' : 'Translate' }}
+        </button>
+      </div>
+
+      <div class="alert alert-success" *ngIf="outputText">
+        <strong>Translation:</strong>
+        <p class="mb-0 mt-2">{{ outputText }}</p>
+      </div>
+    </div>
   </div>
 </div>
