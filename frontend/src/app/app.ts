@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Translator } from './components/translator/translator';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [Translator],
+  standalone: true,
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

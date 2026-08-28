@@ -1,0 +1,46 @@
+<div class="container py-5">
+  <h2 class="mb-4 text-primary">📊 Admin Dashboard</h2>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div *ngIf="stats" class="row g-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm p-4 text-center">
+        <h6 class="text-muted">Total Users</h6>
+        <h1 class="text-primary">{{ stats.total_users }}</h1>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow-sm p-4 text-center">
+        <h6 class="text-muted">Total Translations</h6>
+        <h1 class="text-primary">{{ stats.total_translations }}</h1>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card shadow-sm p-4">
+        <h5 class="mb-3">Language Pair Usage</h5>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>Times Used</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pair of stats.language_pair_usage">
+              <td>{{ pair.source }}</td>
+              <td>{{ pair.target }}</td>
+              <td>{{ pair.count }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
