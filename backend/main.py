@@ -118,6 +118,10 @@ def translate(
 def get_languages():
     return {"pairs": [{"source": s, "target": t} for (s, t) in SUPPORTED_LANGUAGES.keys()]}
 
+@app.get("/me")
+def get_me(user: User = Depends(get_current_user)):
+    return {"email": user.email, "is_admin": user.is_admin}
+
 @app.get("/admin/stats")
 def admin_stats(db: Session = Depends(get_db), admin: User = Depends(require_admin)):
     total_users = db.query(func.count(User.id)).scalar()

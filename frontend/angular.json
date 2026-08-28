@@ -24,10 +24,13 @@
                 "input": "public"
               }
             ],
-            "styles": [  
-              "bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
-            ]
+          "styles": [
+  "bootstrap/dist/css/bootstrap.min.css",
+  "src/styles.css"
+],
+"scripts": [
+  "bootstrap/dist/js/bootstrap.bundle.min.js"
+]
           },
           "configurations": {
             "production": {

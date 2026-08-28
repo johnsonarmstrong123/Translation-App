@@ -62,8 +62,12 @@ export class Translation {
     );
   }
 
-  getLanguagePairs(): Observable<{ pairs: LanguagePair[] }> {
+   getLanguagePairs(): Observable<{ pairs: LanguagePair[] }> {
     return this.http.get<{ pairs: LanguagePair[] }>(`${this.apiUrl}/languages`);
+  }
+
+  getMe(): Observable<{ email: string; is_admin: boolean }> {
+    return this.http.get<{ email: string; is_admin: boolean }>(`${this.apiUrl}/me`, { headers: this.authHeaders() });
   }
 
   getAdminStats(): Observable<AdminStats> {
