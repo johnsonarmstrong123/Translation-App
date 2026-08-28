@@ -25,7 +25,7 @@ export interface AdminStats {
 
 @Injectable({ providedIn: 'root' })
 export class Translation {
-  private apiUrl = 'http://localhost:8000';
+ private apiUrl = 'https://translation-app-nj8w.onrender.com';
 
   constructor(private http: HttpClient) {}
 
