@@ -7,7 +7,8 @@ const LANGUAGE_NAMES: Record<string, string> = {
   en: 'English',
   fr: 'French',
   es: 'Spanish',
-  de: 'German'
+  de: 'German',
+  tw: 'Twi'
 };
 
 @Component({

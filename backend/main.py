@@ -82,19 +82,30 @@ SUPPORTED_LANGUAGES = {
     ("es", "en"): "Helsinki-NLP/opus-mt-es-en",
     ("en", "de"): "Helsinki-NLP/opus-mt-en-de",
     ("de", "en"): "Helsinki-NLP/opus-mt-de-en",
+    ("en", "tw"): "Helsinki-NLP/opus-mt-en-tw",
 }
 
+import torch
+
 loaded_models = {}
+MAX_CACHED_MODELS = 1  # keep only the most recently used model in memory
 
 def get_model(source_lang: str, target_lang: str):
     key = (source_lang, target_lang)
     if key not in SUPPORTED_LANGUAGES:
         raise HTTPException(status_code=400, detail="Unsupported language pair")
+
     if key not in loaded_models:
+        if len(loaded_models) >= MAX_CACHED_MODELS:
+            loaded_models.clear()
+
         model_name = SUPPORTED_LANGUAGES[key]
         tokenizer = MarianTokenizer.from_pretrained(model_name)
         model = MarianMTModel.from_pretrained(model_name)
+        model.eval()
+        model = torch.quantization.quantize_dynamic(model, {torch.nn.Linear}, dtype=torch.qint8)
         loaded_models[key] = (tokenizer, model)
+
     return loaded_models[key]
 
 @app.post("/translate", response_model=TranslationResponse)
@@ -105,7 +116,8 @@ def translate(
 ):
     tokenizer, model = get_model(request.source_lang, request.target_lang)
     inputs = tokenizer(request.text, return_tensors="pt", padding=True)
-    translated = model.generate(**inputs)
+    with torch.no_grad():
+        translated = model.generate(**inputs)
     output = tokenizer.decode(translated[0], skip_special_tokens=True)
 
     log = TranslationLog(user_id=user.id, source_lang=request.source_lang, target_lang=request.target_lang)
