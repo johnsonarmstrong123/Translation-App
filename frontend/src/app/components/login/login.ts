@@ -20,19 +20,17 @@ export class Login {
   constructor(private translationService: Translation, private router: Router) {}
 
   onLogin() {
-    console.log('Login attempt:', this.email, this.password);
     this.errorMessage = '';
     this.loading = true;
     this.translationService.login(this.email, this.password).subscribe({
-      next: (res) => {
-        console.log('Login success:', res);
+      next: () => {
         this.loading = false;
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.log('Login error:', err);
         this.loading = false;
         this.errorMessage = 'Incorrect email or password.';
+        console.error(err);
       }
     });
   }
